@@ -13,7 +13,7 @@ Creating a spell Effect is simple.
 - Drag a graphic to the VTT that represents the area of Effect for a spell.
 - Resize the graphic to the dimensions it needs to be for the Effect.
 - Edit the graphic and name it for the spell it represents. This is important if you wish to [restrict access](#config) to known spells.
-- Make sure the graphic is selected and click the "Create Effect" button in the [Effects Menu](#effects-menu).
+- Make sure the graphic is selected and click the "Create Effect" button in the Effects Menu.
 
 Created effects can be deleted from the Effects Menu by the GM, and existing effects will be overwritten by creating a new Effect of the same name.
 
