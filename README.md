@@ -20,7 +20,7 @@ Created effects can be deleted from the Effects Menu by the GM, and existing eff
 In accordance with Roll20's API rules ([https://wiki.roll20.net/API:Objects#imgsrc_and_avatar_property_restrictions](https://wiki.roll20.net/API:Objects#imgsrc_and_avatar_property_restrictions)), you can *only* use images that you have uploaded to your library. If you have purchased any through the Marketplace, you must first download them, then upload to your library.
 
 ## Config
-From the config menu, you can create Target Characters and access the Effects Menu. Enter `!aoe config` in chat to open the config menu.
+From the config menu, you can easily create Target Characters and access the Effects Menu. Enter `!aoe config` in chat to open up config.
 
 For games using the [5e Shaped Sheet](http://github.com/mlenser/roll20-character-sheets/tree/master/5eShaped), you can also choose to restrict player access to only those effects that correspond to spells they have in their character sheets. The config menu has a link to toggle this feature on and off. The script *does not* try to detect the type of character sheets being used.
 
