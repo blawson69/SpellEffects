@@ -247,7 +247,7 @@ var SpellEffects = SpellEffects || (function () {
         if (seNote) {
             parsedData = '';
             _.each(state['SpellEffects'].effects, function (item) {
-                parsedData += '<p>' + item.name + '|' + item.width + '|' + item.height + '|' + item.top + '|' + item.left + '|' + item.imgsrc + '</p>';
+                parsedData += '<p>' + item.name + '|' + item.width + '|' + item.height + '|' + item.imgsrc + '</p>';
             });
             seNote.set({ notes: parsedData });
             if (debugMode) log('SpellEffects have exported successfully.');
