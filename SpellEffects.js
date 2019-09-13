@@ -305,7 +305,7 @@ var SpellEffects = SpellEffects || (function () {
             char.set({bio: '<p>A Target for creating Spell Effects.</p><p>Just drag me to the map, make sure I\'m selected, and click the "Effects Menu" token action button.</p>'});
 
             var ability = createObj("ability", { name: 'Effects Menu', characterid: char.get('id'), action: '!aoe menu', istokenaction: true });
-            token.set({represents: char.get('id'), showname: false, showplayers_name: false, showplayers_bar1: false, showplayers_bar2: false, showplayers_bar3: false, light_radius: '', light_dimradius: '', light_hassight: false, light_otherplayers: false});
+            token.set({represents: char.get('id'), showname: false, showplayers_name: false, showplayers_bar1: false, showplayers_bar2: false, showplayers_bar3: false, playersedit_bar1: false, playersedit_bar2: false, playersedit_bar3: false, light_radius: '', light_dimradius: '', light_hassight: false, light_otherplayers: false});
             setDefaultTokenForCharacter(char, token);
 
             showDialog('Target Character Created', 'A SpellEffects character has been successfully created for the selected Target token.', 'GM');
