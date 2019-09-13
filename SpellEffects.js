@@ -109,7 +109,6 @@ var SpellEffects = SpellEffects || (function () {
                 // Overwrite any existing spell effect first
                 state['SpellEffects'].effects = _.reject(state['SpellEffects'].effects, function (x) { return x.name == spell.name; });
                 state['SpellEffects'].effects.push(spell);
-                log('New spell = ' + JSON.stringify(spell));
                 showDialog('Creation Complete', 'Spell AoE Effect for "' + spell.name + '" has been successfully created.', 'GM');
                 commandMenu(msg);
             } else {
@@ -162,12 +161,12 @@ var SpellEffects = SpellEffects || (function () {
     },
 
     commandMenu = function (msg) {
-        var spells = [], message = '', avail_spells = state['SpellEffects'].effects;
+        var spells = [], message = '', avail_spells = _.sortBy(state['SpellEffects'].effects, 'name');;
 
         if (state['SpellEffects'].enfoceKnownSpells && !playerIsGM(msg.playerid)) {
             var known_spells = getSpells(msg.playerid);
             avail_spells = _.reject(state['SpellEffects'].effects, function (effect) {
-                return _.find(known_spells, function (x) { return x == effect.name; }) == null;
+                return _.find(known_spells, function (x) { return effect.name.search(x) != -1; }) == null;
             });
         }
 
@@ -363,7 +362,7 @@ var SpellEffects = SpellEffects || (function () {
     isValidSrc = function (url) {
         // Returns whether or not a given imgsrc is valid
         // Valid = https://s3.amazonaws.com/files.d20.io/images/90111752/GDBao8Z1IvYvrSSbtHEU1g/thumb.png?1566690793
-        var ir = /^.*d20\.io\/images\/.*\/thumb\.png\?\d+$/;
+        var ir = /^.*d20\.io\/images\/.*\/(thumb|med|original|max)\.png\?\d+$/;
         return ir.test(url);
     },
 
