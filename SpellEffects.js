@@ -251,6 +251,7 @@ var SpellEffects = SpellEffects || (function () {
             });
             seNote.set({ notes: parsedData });
             if (debugMode) log('SpellEffects have exported successfully.');
+            showDialog('Export Successful', 'Your saved SpellEffects effects have been successfully exported.', msg.who);
         }
     },
 
