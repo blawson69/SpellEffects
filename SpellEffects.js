@@ -139,7 +139,7 @@ var SpellEffects = SpellEffects || (function () {
                 if ((left % cell_width == 0) !== (spell.width % (cell_width * 2) == 0)) left = left + (cell_width / 2);
 
                 toBack(target);
-                target.set({imgsrc: spell.imgsrc, width: spell.width, height: spell.height, top: top, left: left, rotation: 0});
+                target.set({imgsrc: spell.imgsrc, width: spell.width, height: spell.height, top: top, left: left, rotation: 0, showname: false, showplayers_name: false, showplayers_bar1: false, showplayers_bar2: false, showplayers_bar3: false, aura1_radius: '', aura2_radius: '', showplayers_aura1: false, showplayers_aura2: false, light_radius: '', light_dimradius: '', light_hassight: false, light_otherplayers: false, tint_color: 'transparent', statusmarkers: ''});
             } else {
                 showDialog('Generation Error', 'No Spell AoE Effect named "' + spell_name + '" has been created!', msg.who);
             }
@@ -305,7 +305,7 @@ var SpellEffects = SpellEffects || (function () {
             char.set({bio: '<p>A Target for creating Spell Effects.</p><p>Just drag me to the map, make sure I\'m selected, and click the "Effects Menu" token action button.</p>'});
 
             var ability = createObj("ability", { name: 'Effects Menu', characterid: char.get('id'), action: '!aoe menu', istokenaction: true });
-            token.set({represents: char.get('id'), showname: false, showplayers_name: false, showplayers_bar1: false, showplayers_bar2: false, showplayers_bar3: false, showplayers_aura1: false, showplayers_aura2: false, light_radius: '', light_dimradius: '', light_hassight: false, light_otherplayers: false, tint_color: 'transparent'});
+            token.set({represents: char.get('id'), showname: false, showplayers_name: false, showplayers_bar1: false, showplayers_bar2: false, showplayers_bar3: false, light_radius: '', light_dimradius: '', light_hassight: false, light_otherplayers: false});
             setDefaultTokenForCharacter(char, token);
 
             showDialog('Target Character Created', 'A SpellEffects character has been successfully created for the selected Target token.', 'GM');
