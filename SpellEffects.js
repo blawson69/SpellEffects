@@ -15,7 +15,7 @@ var SpellEffects = SpellEffects || (function () {
 
     //---- INFO ----//
 
-    var version = '0.1',
+    var version = '0.2',
     debugMode = false,
     styles = {
         box:  'background-color: #fff; border: 1px solid #000; padding: 8px 10px; border-radius: 6px; margin-left: -40px; margin-right: 0px;',
@@ -174,15 +174,18 @@ var SpellEffects = SpellEffects || (function () {
             message += '<table width="100%">';
             _.each(avail_spells, function (spell) {
                 message += '<tr><td width="100%"><a style="' + styles.spellLink + '" href="!aoe generate --' + spell.name + '">' + spell.name + '</a></td>';
-                if (playerIsGM(msg.playerid)) message += '<td><a style="' + styles.imgLink + '" href="!aoe destroy --' + spell.name + '" title="Delete ' + spell.name + '">❌</a></td>';
+                if (playerIsGM(msg.playerid)) message += '<td><a style="' + styles.imgLink + '" href="!aoe destroy --' + spell.name + '" title="Destroy ' + spell.name + '">❌</a></td>';
                 message += '</tr>';
             });
             message += '</table>';
         } else {
-            message += (playerIsGM(msg.playerid)) ? 'No spell effects have been created!' : 'No spell effects available.';
+            message += (playerIsGM(msg.playerid)) ? '' : 'No spell effects available.';
         }
 
         if (playerIsGM(msg.playerid)) {
+            if (_.size(state['SpellEffects'].effects) > 0) message += '<hr>';
+            message += 'To create a new effect, drag a spell effect graphic onto the VTT and size it appropriately. Give the token the name of the spell effect you wish to create, then click "Create Effect".';
+            message += '<br><br>See the <a style="' + styles.textButton + '" href="https://github.com/blawson69/SpellEffects">documentation</a> for complete instructions.';
             message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + 'background-color: #8e1ca8;" href="!aoe create">Create Effect</a></div>';
         }
 
@@ -191,18 +194,27 @@ var SpellEffects = SpellEffects || (function () {
 
     commandHelp = function (msg) {
         // Show help dialog
-        var message = '';
-        message += 'To see a menu with all available spell effects, click the button below. If you have a Target Character, drag it to the VTT and it will have a token action to show the menu as well.';
-        if (!playerIsGM(msg.playerid)) message += ' If no spell effects are show, speak with your GM.';
-        message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + '" href="!aoe menu">Show Effects Menu</a></div>';
-        message += '<br>To generate an effect, select a Target token then click the name of the spell in the Effects Menu for which you wish to generate an area of effect.';
-
+        var title, message = '';
         if (playerIsGM(msg.playerid)) {
+            title = 'Help';
+            message += 'To see a menu with all available spell effects, click the button below. To generate an effect, select a Target token then click the name of the spell in the Effects Menu for which you wish to generate an area of effect.';
+            message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + '" href="!aoe menu">Show Effects Menu</a></div>';
             message += '<hr>To set options, create Target characters, or import/export saved effects, visit the config menu.';
             message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + '" href="!aoe config">Show Config</a></div>';
+        } else {
+            title = 'Welcome to SpellEffects!';
+            message += 'To generate the area of effect for a spell:<br><br><ol>';
+            message += '<li><b>Move</b> your Target Character to where the point of origin for your spell should be.<ul>';
+            message += '<li>If your spell is the <b>"centered on you"</b> or <b>"from you"</b> type, place the Target Character over the token of your character casting the spell.</li>';
+            message += '<li>If your spell is the <b>"point of your choice"</b> type, place it in any cell within range. The bottom right corner of your Target Character is dead-center of the Area of Effect.</li></ul></li>';
+            message += '<li>Make sure your Target Character is <b>still selected</b>.</li>';
+            message += '<li><b>Click the <i>Effects Menu</i> button</b> in the Token Actions bar. This displays all of your available spell effects by spell name.</li>';
+            message += '<li><b>Click the name of the spell</b> for which you wish to generate an effect.</li>';
+            message += '</ol>';
+
         }
 
-        showDialog('Help', message, msg.who);
+        showDialog(title, message, msg.who);
     },
 
     commandConfig = function (msg) {
@@ -210,34 +222,36 @@ var SpellEffects = SpellEffects || (function () {
         var message = '', args = msg.content.split(/\s+/i);
         if (args[2] && args[2] == '--restrict-spells') state['SpellEffects'].enfoceKnownSpells = !state['SpellEffects'].enfoceKnownSpells;
 
-        message += 'You currently have <b>' + _.size(state['SpellEffects'].effects) + ' spell effects</b> stored. Open the <a style="' + styles.textButton + '" href="!aoe menu">menu</a> to view or delete any of them. Creating a new one with the same name will overwrite any existing effects.<br>';
+        if (_.size(state['SpellEffects'].effects) > 0) {
+            message += 'You currently have <b>' + _.size(state['SpellEffects'].effects) + ' spell effects</b> stored. Open the <a style="' + styles.textButton + '" href="!aoe menu">menu</a> to view or delete any of them. Creating a new one with the same name will overwrite any existing effects.<br>';
+        } else {
+            message += 'You have not created any spell effects yet! Open the <a style="' + styles.textButton + '" href="!aoe menu">menu</a> to view a button for creating effects. Creating a new one with the same name will overwrite any existing effects.<br>';
+        }
 
-        message += '<hr><div style=\'' + styles.title + '\'>Enforcement of Known Spells:</div>';
+        message += '<hr><div style=\'' + styles.title + '\'>Enforcement of Known Spells: ' + (state['SpellEffects'].enfoceKnownSpells ? 'On' : 'Off') + '</div>';
         if (state['SpellEffects'].enfoceKnownSpells) {
             message += 'You are currently letting players see only those effects that match spells they have on characters they control. If you wish to allow them to access the entire list of effects,  <a style="' + styles.textButton + '" href="!aoe config --restrict-spells">click here</a>.<br>';
         } else {
             message += 'You are currently letting players see all effects. If you wish to limit the effects a player sees to those that correspond to a spell on a character they control, <a style="' + styles.textButton + '" href="!aoe config --restrict-spells">click here</a>.<br><i><b>Note:</b> This currently works only for characters using the 5e Shaped Sheet.</i><br>';
         }
 
-        message += '<hr><div style=\'' + styles.title + '\'>Target Characters:</div>';
+        message += '<hr><div style=\'' + styles.title + '\'>Target Characters</div>';
         message += 'You may create a character for a target, allowing one or more players to simply drag a target onto the VTT.<ol>';
-        message += '<li>Place a graphic on the VTT in the Objects & Tokens layer.</li>';
-        message += '<li>Set the token Name to "SpellEffects" to help avoid accidental character creation.</li>';
-        message += '<li>Click the button below.</li>';
-        message += '<li>Rename your character to reflect who will be in control.</li>';
+        message += '<li>Place your taget graphic on the Token layer.</li>';
+        message += '<li>Set the token Name to "SpellEffects".</li>';
+        message += '<li>With the token selected, click the button below.</li>';
+        message += '<li>Rename your new character to reflect who will be in control.</li>';
         message += '<li>Assign the Controlled By to the appropriate player(s).</li>';
         message += '</ol>';
         message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + 'background-color: #8e1ca8;" href="!aoe target">Create Target Character</a></div>';
 
-        message += '<hr><div style=\'' + styles.title + '\'>Import/Export:</div>';
+        message += '<hr><div style=\'' + styles.title + '\'>Import/Export</div>';
         message += 'To bring your spell effects from this game into another, you may export your saved effects into a SpellEffects handout which can then be transferred to another game.';
         message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + 'background-color: #8e1ca8;" href="!aoe export">Export Effects</a></div><br>';
         message += 'To import effects into this game, make sure there exists a SpellEffects handout in the proper format.';
-        message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + 'background-color: #8e1ca8;" href="!aoe import">Import Effects</a></div><br>';
-        message += '<b>Note:</b> Use of the Transmogrifier is recommended for moving an exported handout from one game to another.';
+        message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + 'background-color: #8e1ca8;" href="!aoe import">Import Effects</a></div>';
 
         message += '<hr>See the <a style="' + styles.textButton + '" href="https://github.com/blawson69/SpellEffects">documentation</a> for complete instructions.';
-        message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + '" href="!aoe help">Show Help</a></div>';
         showDialog('', message, 'GM');
     },
 
@@ -306,6 +320,7 @@ var SpellEffects = SpellEffects || (function () {
             char.set({bio: '<p>A Target for creating Spell Effects.</p><p>Just drag me to the map, make sure I\'m selected, and click the "Effects Menu" token action button.</p>'});
 
             var ability = createObj("ability", { name: 'Effects Menu', characterid: char.get('id'), action: '!aoe menu', istokenaction: true });
+            var ability = createObj("ability", { name: 'Help', characterid: char.get('id'), action: '!aoe help', istokenaction: true });
             token.set({represents: char.get('id'), showname: false, showplayers_name: false, showplayers_bar1: false, showplayers_bar2: false, showplayers_bar3: false, playersedit_bar1: false, playersedit_bar2: false, playersedit_bar3: false, light_radius: '', light_dimradius: '', light_hassight: false, light_otherplayers: false});
             setDefaultTokenForCharacter(char, token);
 
