@@ -4,7 +4,7 @@ This [Roll20](http://roll20.net/) script allows GMs to provide players an easy w
 When an Effect is generated, it is moved underneath all of the tokens on the layer so all of the affected characters/NPCs are easily seen and selected. The Effect token can be moved and rotated freely on the VTT, and will reposition to be snapped to the grid when necessary.
 
 ## Target Characters
-A Target token is required to be selected to receive the AoE effects. To give players access to the effects, the GM can configure any graphic they wish to use into a Target Character and assign one or more players control of that character. You may create one for each character, or make a shared target depending on your needs. The Target Character will have a token action that whispers the Effects Menu in chat to the player controlling it.
+A Target token is required to be selected to generate spell effects. To give players access to the effects, the GM can configure any graphic they wish to use into a Target Character and assign one or more players control of that character. You may create one for each character, or make a shared target depending on your needs. The Target Character will have a token action that whispers the Effects Menu in chat to the player controlling it.
 
 To create a Target Character, just drag a token graphic you wish to use onto the VTT from your library. Then click the "Create Target Character" button in the [config menu](#config). Once the character is created, assign players to it based on who should have access. Rename it however you wish.
 
