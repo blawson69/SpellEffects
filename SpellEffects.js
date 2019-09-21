@@ -15,7 +15,7 @@ var SpellEffects = SpellEffects || (function () {
 
     //---- INFO ----//
 
-    var version = '0.3',
+    var version = '0.3.1',
     debugMode = false,
     styles = {
         box:  'background-color: #fff; border: 1px solid #000; padding: 8px 10px; border-radius: 6px; margin-left: -40px; margin-right: 0px;',
