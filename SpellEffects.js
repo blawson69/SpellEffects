@@ -161,11 +161,11 @@ var SpellEffects = SpellEffects || (function () {
     },
 
     commandMenu = function (msg) {
-        var spells = [], message = '', avail_spells = _.sortBy(state['SpellEffects'].effects, 'name');;
+        var spells = [], message = '', avail_spells = _.sortBy(state['SpellEffects'].effects, 'name');
 
         if (state['SpellEffects'].enfoceKnownSpells && !playerIsGM(msg.playerid)) {
             var known_spells = getSpells(msg.playerid);
-            avail_spells = _.reject(state['SpellEffects'].effects, function (effect) {
+            avail_spells = _.reject(avail_spells, function (effect) {
                 return _.find(known_spells, function (x) { return effect.name.search(x) != -1; }) == null;
             });
         }
@@ -173,7 +173,7 @@ var SpellEffects = SpellEffects || (function () {
         if (_.size(avail_spells) > 0) {
             message += '<table width="100%">';
             _.each(avail_spells, function (spell) {
-                var spell_name = playerIsGM(msg.playerid) ? spell.name : spell.name.replace(/\s*\[@\]\s*/, '');
+                var spell_name = playerIsGM(msg.playerid) ? spell.name : spell.name.replace(/\s*~~\s*/, '');
                 message += '<tr><td width="100%"><a style="' + styles.spellLink + '" href="!aoe generate --' + spell.name + '">' + spell_name + '</a></td>';
                 if (playerIsGM(msg.playerid)) message += '<td><a style="' + styles.imgLink + '" href="!aoe destroy --' + spell.name + '" title="Destroy ' + spell.name + '">❌</a></td>';
                 message += '</tr>';
