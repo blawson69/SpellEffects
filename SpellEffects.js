@@ -282,15 +282,15 @@ var SpellEffects = SpellEffects || (function () {
                 var spells = decodeEditorText(notes, {asArray:true});
                 _.each(spells, function (item) {
                     var spell, s = item.split('|');
-                    if (s.length == 6) {
+                    if (s.length == 4) {
                         if (overwrite) state['SpellEffects'].effects = _.reject(state['SpellEffects'].effects, function (x) { return x.name == s[0]; });
                         if (!_.find(state['SpellEffects'].effects, function (x) { return x.name == s[0]; })) {
-                            if (s[0] != '' && isNum(s[1]) && isNum(s[2]) && isNum(s[3]) && isNum(s[4]) && isValidSrc(s[5])) {
-                                state['SpellEffects'].effects.push({name: s[0].trim(), width: Number(s[1]), height: Number(s[2]), top: Number(s[3]), left: Number(s[4]), imgsrc: s[5].trim()});
+                            if (s[0] != '' && isNum(s[1]) && isNum(s[2]) && isValidSrc(s[3])) {
+                                state['SpellEffects'].effects.push({name: s[0].trim(), width: Number(s[1]), height: Number(s[2]), imgsrc: s[3].trim()});
                                 count++;
                             } else {
-                                if (!isValidSrc(s[5])) errs.push('One or more image URLs reference items outside of your Roll20 library.');
-                                if (!isNum(s[1]) || !isNum(s[2]) || !isNum(s[3]) || !isNum(s[4])) errs.push('One or more Numeric items either are not numbers or blank.');
+                                if (!isValidSrc(s[3])) errs.push('One or more image URLs reference items outside of your Roll20 library.');
+                                if (!isNum(s[1]) || !isNum(s[2])) errs.push('One or more Numeric items either are not numbers or blank.');
                             }
                         }
                     } else {
