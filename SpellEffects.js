@@ -186,7 +186,7 @@ var SpellEffects = SpellEffects || (function () {
         if (playerIsGM(msg.playerid)) {
             if (_.size(state['SpellEffects'].effects) > 0) message += '<hr>';
             message += 'To create a new effect, drag a graphic onto the VTT and size it appropriately. Name the token by the spell effect you wish to create, then click "Create Effect".';
-            if (state['SpellEffects'].enfoceKnownSpells) message += ' Append [@] to the name to indicate an effect seen by all players.';
+            if (state['SpellEffects'].enfoceKnownSpells) message += ' Append <span style=\'' + styles.code + '\'>~~</span> to the name anywhere to indicate an effect seen by all players.';
             message += '<br><br>See the <a style="' + styles.textButton + '" href="https://github.com/blawson69/SpellEffects">documentation</a> for complete instructions.';
             message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + 'background-color: #8e1ca8;" href="!aoe create">Create Effect</a></div>';
         }
@@ -364,7 +364,7 @@ var SpellEffects = SpellEffects || (function () {
 
     getSpells = function (player_id) {
         // returns an array of all spell names for a player's characters
-        var spell_list = ['[@]'], chars = findObjs({type: 'character', archived: false}, {caseInsensitive: true});
+        var spell_list = ['~~'], chars = findObjs({type: 'character', archived: false}, {caseInsensitive: true});
         chars = _.filter(chars, function (char) {
             var players = char.get('controlledby').split(',');
             return _.find(players, function (x) { return x == player_id; }) != null;

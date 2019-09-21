@@ -15,7 +15,7 @@ Creating a spell Effect is simple.
 - Edit the graphic and name it for the spell it represents.
    - If you wish to [restrict access](#config) to known spells, the exact spell name must exist in the name.
    - If you make multiple sizes or options for a spell, put the option designation after the spell name to keep all options together. For instance, "Fog Cloud (20ft)" and "Fog Cloud (40ft)".
-   - If you wish to make an effect available to all players with the restricted access option on, include "[@]" in the name. At the end is recommended placement if you wish to maintain alphabetical ordering.
+   - If you wish to make an effect available to all players with the restricted access option on, include "~~" in the name. At the end is recommended placement if you wish to maintain alphabetical ordering.
 - Make sure the graphic is selected and click the "Create Effect" button in the Effects Menu.
 
 Created effects can be deleted from the Effects Menu by the GM, and existing effects will be overwritten by creating a new Effect of the same name.
