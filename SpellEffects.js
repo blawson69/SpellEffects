@@ -186,7 +186,7 @@ var SpellEffects = SpellEffects || (function () {
         if (playerIsGM(msg.playerid)) {
             if (_.size(state['SpellEffects'].effects) > 0) message += '<hr>';
             message += 'To create a new effect, drag a graphic onto the VTT and size it appropriately. Name the token by the spell effect you wish to create, then click "Create Effect".';
-            if (state['SpellEffects'].enfoceKnownSpells) message += ' Append <span style=\'' + styles.code + '\'>~~</span> to the name anywhere to indicate an effect seen by all players.';
+            if (state['SpellEffects'].enfoceKnownSpells) message += ' Append <span style=\'' + styles.code + '\' title="double tildes">~~</span> to the name anywhere to indicate an effect seen by all players.';
             message += '<br><br>See the <a style="' + styles.textButton + '" href="https://github.com/blawson69/SpellEffects">documentation</a> for complete instructions.';
             message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + 'background-color: #8e1ca8;" href="!aoe create">Create Effect</a></div>';
         }
@@ -322,8 +322,8 @@ var SpellEffects = SpellEffects || (function () {
             var char = createObj("character", {name: 'Spell Target', avatar: token.get('imgsrc')});
             char.set({bio: '<p>I am a Target for creating Spell Effects.</p><p>Just drag me to the map, make sure I\'m selected, and click the "Effects Menu" token action button or "Help" for full instructions.</p>'});
 
-            var ability = createObj("ability", { name: 'Effects Menu', characterid: char.get('id'), action: '!aoe menu', istokenaction: true });
-            var ability = createObj("ability", { name: 'Help', characterid: char.get('id'), action: '!aoe help', istokenaction: true });
+            var menu = createObj("ability", { name: 'Effects Menu', characterid: char.get('id'), action: '!aoe menu', istokenaction: true });
+            var help = createObj("ability", { name: 'Help', characterid: char.get('id'), action: '!aoe help', istokenaction: true });
             token.set({represents: char.get('id'), showname: false, showplayers_name: false, showplayers_bar1: false, showplayers_bar2: false, showplayers_bar3: false, playersedit_bar1: false, playersedit_bar2: false, playersedit_bar3: false, light_radius: '', light_dimradius: '', light_hassight: false, light_otherplayers: false});
             setDefaultTokenForCharacter(char, token);
 
