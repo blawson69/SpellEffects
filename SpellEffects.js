@@ -199,16 +199,16 @@ var SpellEffects = SpellEffects || (function () {
         var title, message = '';
         if (playerIsGM(msg.playerid)) {
             title = 'Help';
-            message += 'To see a menu with all available spell effects, click the button below. To generate an effect, select a Target token then click the name of the spell in the Effects Menu for which you wish to generate an area of effect.';
+            message += 'To see a menu with all available spell effects, click the button below. To generate an effect, select a Spell Target then click the name of the spell in the Effects Menu for which you wish to generate an area of effect.';
             message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + '" href="!aoe menu">Show Effects Menu</a></div>';
-            message += '<hr>To set options, create Target characters, or import/export saved effects, visit the config menu.';
+            message += '<hr>To set options, create Spell Target characters, or import/export saved effects, visit the config menu.';
             message += '<div style="' + styles.buttonWrapper + '"><a style="' + styles.button + '" href="!aoe config">Show Config</a></div>';
         } else {
             title = 'Welcome to SpellEffects!';
             message += 'To generate the area of effect for a spell:<br><br><ol>';
             message += '<li><b>Move</b> your Spell Target to where the point of origin for your spell should be.<ul>';
             message += '<li>If your spell is the <b>"centered on you"</b> or <b>"from you"</b> type, place the Spell Target over the token of your character casting the spell.</li>';
-            message += '<li>If your spell is the <b>"centered on"</b> a target type, place the Spell Target over the token you targeted with your spell.</li>';
+            message += '<li>If your spell is the <b>"target and each creature within x feet"</b> type, place the Spell Target over the token you targeted with your spell.</li>';
             message += '<li>If your spell is the <b>"point of your choice"</b> type, place it in any cell within range. The bottom right corner of your Spell Target is dead-center of the Area of Effect.</li></ul></li>';
             message += '<li>Make sure your Spell Target is <b>still selected</b>.</li>';
             message += '<li><b>Click the <i>Effects Menu</i> button</b> in the Token Actions bar. This displays all of your available spell effects by spell name.</li>';
