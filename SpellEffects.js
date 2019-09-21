@@ -324,7 +324,7 @@ var SpellEffects = SpellEffects || (function () {
 
             var menu = createObj("ability", { name: 'Effects Menu', characterid: char.get('id'), action: '!aoe menu', istokenaction: true });
             var help = createObj("ability", { name: 'Help', characterid: char.get('id'), action: '!aoe help', istokenaction: true });
-            token.set({represents: char.get('id'), showname: false, showplayers_name: false, showplayers_bar1: false, showplayers_bar2: false, showplayers_bar3: false, playersedit_bar1: false, playersedit_bar2: false, playersedit_bar3: false, light_radius: '', light_dimradius: '', light_hassight: false, light_otherplayers: false});
+            token.set({represents: char.get('id'), name: 'Spell Target', showname: false, showplayers_name: false, showplayers_bar1: false, showplayers_bar2: false, showplayers_bar3: false, playersedit_bar1: false, playersedit_bar2: false, playersedit_bar3: false, light_radius: '', light_dimradius: '', light_hassight: false, light_otherplayers: false});
             setDefaultTokenForCharacter(char, token);
 
             showDialog('Target Character Created', 'A Spell Target character has been successfully created for the selected Target token.', 'GM');
@@ -345,22 +345,6 @@ var SpellEffects = SpellEffects || (function () {
             sendChat('SpellEffects', body);
         }
     },
-
-    showShapedDialog = function (title, content, character = '', silent = false) {
-		// Outputs a 5e Shaped dialog box to players/characters
-        var prefix = '', char_name = '';
-        if (silent && character.length != 0) prefix = '/w "' + character + '" ';
-        if (character.length != 0) char_name = ' {{show_character_name=1}} {{character_name=' + character + '}}';
-        var message = prefix + '&{template:5e-shaped} {{title=' + title + '}} {{text_big=' + content + '}}' + char_name;
-        sendChat('SpellEffects', message, null, {noarchive:true});
-	},
-
-    showShapedAdminDialog = function (title, content, character = '') {
-		// Whispers a 5e Shaped dialog box to the GM
-        if (character != '') character = ' {{show_character_name=1}} {{character_name=' + character + '}}';
-        var message = '/w GM &{template:5e-shaped} {{title=' + title + '}} {{text_big=' + content + '}}' + character;
-        sendChat('SpellEffects', message, null, {noarchive:true});
-	},
 
     getSpells = function (player_id) {
         // returns an array of all spell names for a player's characters
