@@ -5,9 +5,8 @@ A Roll20 script to provide players with AoE graphics based on a character's avai
 On Github:	https://github.com/blawson69
 Contact me: https://app.roll20.net/users/1781274/ben-l
 
-Like this script?
-Venmo: https://venmo.com/theRealBenLawson
-Paypal: https://www.paypal.me/theRealBenLawson
+Like this script? Become a patron:
+    https://www.patreon.com/benscripts
 */
 
 var SpellEffects = SpellEffects || (function () {
@@ -15,7 +14,7 @@ var SpellEffects = SpellEffects || (function () {
 
     //---- INFO ----//
 
-    var version = '0.3.1',
+    var version = '0.3.2',
     debugMode = false,
     styles = {
         box:  'background-color: #fff; border: 1px solid #000; padding: 8px 10px; border-radius: 6px; margin-left: -40px; margin-right: 0px;',
@@ -279,7 +278,8 @@ var SpellEffects = SpellEffects || (function () {
 
         if (seNote) {
             seNote.get('notes', function (notes) {
-                var spells = decodeEditorText(notes, {asArray:true});
+                //var spells = decodeEditorText(notes, {asArray:true});
+                var spells = processHandout(notes);
                 _.each(spells, function (item) {
                     var spell, s = item.split('|');
                     if (s.length == 4) {
@@ -373,6 +373,14 @@ var SpellEffects = SpellEffects || (function () {
         // Returns whether or not a string is actually a Number
         var nr = /^\d+$/;
         return nr.test(txt);
+    },
+
+    processHandout = function (notes = '') {
+        var retval = [], text = notes.trim();
+        text = text.replace(/<p[^>]*>/gi, '<p>').replace(/\n(<p>)?/gi, '</p><p>').replace(/<br>/gi, '</p><p>');
+        text = text.replace(/<\/?(span|div|pre|img|code|b|i|h1|h2|h3|h4|h5|ol|ul|pre)[^>]*>/gi, '');
+        if (text != '' && /<p>.*?<\/p>/g.test(text)) retval = text.match(/<p>.*?<\/p>/g).map( l => l.replace(/^<p>(.*?)<\/p>$/,'$1'));
+        return retval;
     },
 
     decodeEditorText = function (t, o) {
